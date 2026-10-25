@@ -1,0 +1,159 @@
+# UAE employers to resolve into scannable job boards — input for discover-ats.
+#
+#   node discover-ats.mjs --in presets/uae-pm-ops/companies.yml --summary   # preview, writes nothing
+#   node discover-ats.mjs --in presets/uae-pm-ops/companies.yml --write     # append verified boards to portals.yml
+#
+# discover-ats probes each company live (zero AI tokens) and only adds a board
+# that exists AND currently lists jobs. Anything it cannot resolve is reported
+# as "unresolved" — those employers are still covered by the web-search queries
+# in portals.yml (/career-ops scan).
+#
+# Workday employers need a `workday:` hint (the address-bar URL of their
+# myworkdayjobs.com job search). The hints below are best guesses and are
+# confirmed live by discover-ats; a wrong one simply comes back unresolved.
+# To add one: open the employer's careers page → "Search jobs" → copy the
+# <tenant>.wd<N>.myworkdayjobs.com/<site> address.
+
+companies:
+  # -- Tech, e-commerce & delivery (usually Greenhouse / Lever / Ashby / Workable) --
+  - name: Careem
+    website: https://www.careem.com
+  - name: talabat
+    website: https://www.talabat.com
+  - name: noon
+    website: https://www.noon.com
+  - name: Kitopi
+    website: https://www.kitopi.com
+  - name: Tabby
+    website: https://tabby.ai
+  - name: Property Finder
+    website: https://www.propertyfinder.ae
+  - name: Dubizzle Group
+    website: https://www.dubizzlegroup.com
+  - name: Huspy
+    website: https://huspy.com
+  - name: Sarwa
+    website: https://www.sarwa.co
+  - name: Baraka
+    website: https://getbaraka.com
+  - name: Ziina
+    website: https://ziina.com
+  - name: Zywa
+    website: https://zywa.co
+  - name: Wio Bank
+    website: https://www.wio.io
+  - name: Yango
+    website: https://yango.com
+  - name: Deliveroo
+    website: https://deliveroo.co.uk
+  - name: Anghami
+    website: https://www.anghami.com
+  - name: Calo
+    website: https://calo.app
+  - name: Pure Harvest Smart Farms
+    website: https://www.pureharvest.ae
+  - name: Aramex
+    website: https://www.aramex.com
+
+  # -- Consulting & professional services (Workday hints where known) --
+  - name: Accenture
+    website: https://www.accenture.com
+    workday: https://accenture.wd103.myworkdayjobs.com/AccentureCareers
+  - name: PwC
+    website: https://www.pwc.com/m1
+    workday: https://pwc.wd3.myworkdayjobs.com/Global_Experienced_Careers
+  - name: Deloitte Middle East
+    website: https://www.deloitte.com/middle-east
+  - name: EY
+    website: https://www.ey.com
+  - name: KPMG Lower Gulf
+    website: https://kpmg.com/ae
+
+  # -- Engineering, construction & project-management consultancies --
+  - name: AECOM
+    website: https://aecom.com
+    workday: https://aecom.wd1.myworkdayjobs.com/AECOMCareers
+  - name: Jacobs
+    website: https://www.jacobs.com
+  - name: WSP
+    website: https://www.wsp.com
+  - name: AtkinsRéalis
+    website: https://www.atkinsrealis.com
+  - name: Parsons
+    website: https://www.parsons.com
+    workday: https://parsons.wd5.myworkdayjobs.com/Search
+  - name: Turner & Townsend
+    website: https://www.turnerandtownsend.com
+  - name: Mace
+    website: https://www.macegroup.com
+  - name: Arcadis
+    website: https://www.arcadis.com
+  - name: Egis
+    website: https://www.egis-group.com
+  - name: Hill International
+    website: https://www.hillintl.com
+  - name: KEO International Consultants
+    website: https://www.keoic.com
+
+  # -- UAE groups & government-related entities (mostly SuccessFactors / Oracle / own portals) --
+  # These rarely resolve automatically; if one doesn't, the web-search queries cover it.
+  - name: Emirates Group
+    website: https://www.emiratesgroupcareers.com
+  - name: Etihad Airways
+    website: https://careers.etihad.com
+  - name: Dubai Airports
+    website: https://www.dubaiairports.ae
+  - name: DP World
+    website: https://www.dpworld.com
+  - name: Emaar Properties
+    website: https://www.emaar.com
+  - name: Aldar Properties
+    website: https://www.aldar.com
+  - name: Majid Al Futtaim
+    website: https://www.majidalfuttaim.com
+  - name: Al-Futtaim Group
+    website: https://alfuttaim.com
+  - name: Chalhoub Group
+    website: https://www.chalhoubgroup.com
+  - name: Landmark Group
+    website: https://www.landmarkgroup.com
+  - name: e& (Etisalat)
+    website: https://www.eand.com
+  - name: du
+    website: https://www.du.ae
+  - name: Mubadala
+    website: https://www.mubadala.com
+  - name: ADNOC
+    website: https://www.adnoc.ae
+  - name: ENOC
+    website: https://www.enoc.com
+  - name: Dubai Holding
+    website: https://www.dubaiholding.com
+  - name: Emirates NBD
+    website: https://www.emiratesnbd.com
+  - name: First Abu Dhabi Bank
+    website: https://www.bankfab.com
+  - name: Mashreq
+    website: https://www.mashreq.com
+
+  # -- Logistics, FMCG & hospitality (strong operations hiring in the UAE) --
+  - name: DHL
+    website: https://www.dhl.com
+  - name: Maersk
+    website: https://www.maersk.com
+  - name: Agility
+    website: https://www.agility.com
+  - name: GAC
+    website: https://www.gac.com
+  - name: Unilever
+    website: https://www.unilever.com
+  - name: PepsiCo
+    website: https://www.pepsico.com
+  - name: Marriott International
+    website: https://www.marriott.com
+  - name: Hilton
+    website: https://www.hilton.com
+  - name: Accor
+    website: https://group.accor.com
+  - name: Jumeirah Group
+    website: https://www.jumeirah.com

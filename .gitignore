@@ -284,3 +284,5 @@ data/interview-prep/
 .next/
 web/.next/
 web/out/
+# Fork: track config/local-paths.txt (declares presets/ as fork-local)
+!config/local-paths.txt

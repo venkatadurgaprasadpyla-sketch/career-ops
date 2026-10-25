@@ -198,6 +198,10 @@ It reformulates your CV; it must never fabricate it. A check in code stops a PDF
 
 </details>
 
+## This fork: UAE entry-level Project & Operations preset
+
+This fork adds [`presets/uae-pm-ops/`](presets/uae-pm-ops/README.md), which sets career-ops up for entry-level project management, PMO and operations roles in Dubai and Abu Dhabi. After the Quick Start install, run `node presets/uae-pm-ops/install.mjs --name "Your Name" --email you@example.com`.
+
 ## Quick Start
 
 **Fastest way, one command:**

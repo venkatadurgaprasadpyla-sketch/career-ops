@@ -1,0 +1,250 @@
+# Portal Scanner Configuration — UAE preset: entry-level Project & Operations roles
+#
+# Installed by `node presets/uae-pm-ops/install.mjs` as your portals.yml.
+# Target: entry-level / early-career Project Management, PMO and Operations roles
+# in Dubai and Abu Dhabi, for a UAE resident who is NOT an Emirati national.
+#
+# This is a deliberately SHORT file. The shipped templates/portals.example.yml
+# is tuned for AI/engineering roles (and rejects "Junior"); this preset replaces it.
+# Full documentation of every key lives in templates/portals.example.yml.
+#
+# How the pieces fit:
+#   - title_filter        → which job titles count (entry-level PM / PMO / Ops)
+#   - skip_tiers          → drops senior/lead/director titles automatically
+#   - location_filter     → Dubai / Abu Dhabi / UAE only
+#   - content_filter      → drops postings reserved for UAE nationals (when the
+#                           provider returns the description)
+#   - search_queries      → UAE job boards via web search (/career-ops scan only;
+#                           uses AI tokens). This is where most UAE local
+#                           employers are found.
+#   - job_boards          → Amazon UAE (zero-token API)
+#   - tracked_companies   → empty on purpose. Fill it with VERIFIED boards:
+#                             node discover-ats.mjs --in presets/uae-pm-ops/companies.yml --summary
+#                             node discover-ats.mjs --in presets/uae-pm-ops/companies.yml --write
+#                           discover-ats probes each employer live and appends only
+#                           boards that exist and list jobs.
+
+# Postings older than this are skipped (UAE roles fill fast). 0 disables.
+max_posting_age_days: 30
+
+# -- Title filter --
+# At least 1 positive must match AND 0 negatives (case-insensitive).
+# " + " means all terms in any order: "project + coordinator" matches
+# "Coordinator - Projects" and "Project Co-ordination Coordinator".
+# Seniority tiers to drop (classify-tier.mjs): senior = Senior / Sr / Lead /
+# Principal / Head of / Director / VP / Chief. Plain titles ("Project Manager")
+# count as 'mid' and are KEPT — many UAE entry roles carry plain titles.
+skip_tiers: [senior]
+
+title_filter:
+  positive:
+    # -- Project management (entry level) --
+    - "project + coordinator"
+    - "project + co-ordinator"
+    - "project + assistant"
+    - "project + associate"
+    - "project + officer"
+    - "project + analyst"
+    - "project + administrator"
+    - "project + support"
+    - "assistant project manager"
+    - "junior project manager"
+    - "associate project manager"
+    - "project manager"
+    - "project management"
+    - "project controls"
+    - "project control"
+    - "project planner"
+    - "planning + coordinator"
+    # -- PMO --
+    - "PMO"
+    - "project management office"
+    # -- Programme / delivery --
+    - "program + coordinator"
+    - "programme + coordinator"
+    - "program + associate"
+    - "programme + officer"
+    - "program + officer"
+    - "delivery + coordinator"
+    - "implementation + coordinator"
+    - "scrum master"
+    # -- Operations (entry level) --
+    - "operations + coordinator"
+    - "operations + co-ordinator"
+    - "operations + executive"
+    - "operations + associate"
+    - "operations + analyst"
+    - "operations + assistant"
+    - "operations + officer"
+    - "operations + specialist"
+    - "operations + supervisor"
+    - "operations + manager"
+    - "business operations"
+    - "process improvement"
+    - "process excellence"
+    - "business process"
+    - "business analyst"
+    # -- Supply chain / logistics operations (adjacent) --
+    - "supply chain + coordinator"
+    - "supply chain + analyst"
+    - "logistics + coordinator"
+    - "logistics + executive"
+    # Amazon's entry operations role; document control is a common first
+    # step into project work on UAE construction / real-estate projects.
+    - "area manager"
+    - "document controller"
+    # -- Early-career programmes --
+    - "management trainee"
+    - "graduate trainee"
+    - "graduate program"
+    - "graduate programme"
+    - "graduate development"
+    - "future leaders"
+
+  negative:
+    # -- Reserved for Emirati nationals (Emiratisation / Tawteen) --
+    # These titles are lawfully restricted to UAE nationals, so they are not
+    # open to this candidate. Remove these lines if that changes.
+    - "UAE National"
+    - "Emirati"
+    - "Emiratisation"
+    - "Emiratization"
+    - "Tawteen"
+    - "Nationals Only"
+    - "National Talent"
+    # -- Too senior (backs up skip_tiers) --
+    - "Senior"
+    - "word:Sr"
+    - "Head of"
+    - "Director"
+    - "Vice President"
+    - "word:VP"
+    - "Chief"
+    - "General Manager"
+    # -- Internships (remove these three to see paid internships too) --
+    - "word:Intern"
+    - "word:Interns"
+    - "Internship"
+    # -- Not project/operations work --
+    - "Software Engineer"
+    - "Developer"
+    - "Nurse"
+    - "Driver"
+    - "Technician"
+    - "Sales Executive"
+
+  # Boost (does not filter): pushes the most clearly entry-level titles up.
+  seniority_boost:
+    - "Junior"
+    - "Associate"
+    - "Assistant"
+    - "Coordinator"
+    - "Graduate"
+    - "Trainee"
+    - "Entry"
+
+# -- Location filter --
+# Dubai and Abu Dhabi first; a posting that says only "United Arab Emirates"
+# or "UAE" is also kept (many UAE postings name only the country) — the
+# evaluation then checks the actual emirate.
+location_filter:
+  always_allow:
+    - "Dubai"
+    - "Abu Dhabi"
+  allow:
+    - "Dubai"
+    - "Abu Dhabi"
+    - "United Arab Emirates"
+    - "UAE"
+  # Remote roles are not the target. Without this, a title saying "Remote"
+  # would be let in from any country.
+  remote_title_fallback: false
+
+# -- Content filter (job DESCRIPTION text) --
+# Drops postings whose description reserves the role for UAE nationals.
+# Only exact restriction phrases — a JD that merely says "we support
+# Emiratisation" is NOT dropped. Providers that return no description always
+# pass; the evaluation's hard-blocker rule (modes/_profile.md) catches the rest.
+content_filter:
+  negative:
+    - "uae nationals only"
+    - "uae national only"
+    - "only uae nationals"
+    - "only for uae nationals"
+    - "open to uae nationals only"
+    - "reserved for uae nationals"
+    - "exclusively for uae nationals"
+    - "emirati nationals only"
+    - "emiratis only"
+    - "only emirati"
+    - "uae national candidates only"
+    - "this role is for uae nationals"
+    - "this position is for uae nationals"
+    - "applicable for uae nationals"
+
+# -- Web-search queries (/career-ops scan only — uses AI tokens) --
+# Most UAE employers (government-related entities, family groups, contractors)
+# post on regional boards rather than a scannable ATS, so these queries carry
+# most of the coverage. Turn individual ones off with enabled: false.
+search_queries:
+  - name: PMI Career HQ — UAE project roles
+    query: 'site:pmjobs.pmi.org ("Project Coordinator" OR "Assistant Project Manager" OR "Junior Project Manager" OR "PMO") ("Dubai" OR "Abu Dhabi") -"UAE National"'
+    enabled: true
+
+  - name: GulfTalent — project & PMO
+    query: 'site:gulftalent.com ("Project Coordinator" OR "PMO Analyst" OR "PMO Coordinator" OR "Assistant Project Manager") ("Dubai" OR "Abu Dhabi") -"UAE National"'
+    enabled: true
+
+  - name: GulfTalent — operations
+    query: 'site:gulftalent.com ("Operations Coordinator" OR "Operations Executive" OR "Operations Analyst" OR "Operations Associate") ("Dubai" OR "Abu Dhabi") -"UAE National"'
+    enabled: true
+
+  - name: Bayt — project & operations
+    query: 'site:bayt.com/en/uae/jobs ("project coordinator" OR "operations coordinator" OR "pmo" OR "operations executive" OR "assistant project manager") -"uae national"'
+    enabled: true
+
+  - name: NaukriGulf — project & operations
+    query: 'site:naukrigulf.com ("project coordinator" OR "operations coordinator" OR "operations executive" OR "pmo") ("dubai" OR "abu dhabi")'
+    enabled: true
+
+  - name: LinkedIn — entry-level project & operations
+    query: 'site:linkedin.com/jobs/view ("Project Coordinator" OR "Operations Coordinator" OR "PMO Analyst" OR "Operations Analyst") ("Dubai" OR "Abu Dhabi") ("Entry level" OR "Associate")'
+    enabled: true
+
+  - name: Indeed UAE — project & operations
+    query: 'site:ae.indeed.com ("Project Coordinator" OR "Operations Coordinator" OR "PMO") ("Dubai" OR "Abu Dhabi")'
+    enabled: true
+
+  - name: Workday boards — UAE
+    query: 'site:myworkdayjobs.com ("Project Coordinator" OR "Operations Coordinator" OR "PMO Analyst" OR "Operations Analyst") ("Dubai" OR "Abu Dhabi")'
+    enabled: true
+
+  - name: SuccessFactors / Oracle boards — UAE
+    query: 'site:successfactors.com OR site:successfactors.eu OR site:oraclecloud.com ("Project Coordinator" OR "Operations Coordinator" OR "PMO") ("Dubai" OR "Abu Dhabi")'
+    enabled: true
+
+  - name: Startup ATS boards — UAE (Greenhouse / Lever / Ashby / Workable)
+    query: 'site:job-boards.greenhouse.io OR site:boards.greenhouse.io OR site:jobs.lever.co OR site:jobs.ashbyhq.com OR site:apply.workable.com ("Operations" OR "Project Coordinator" OR "Program Coordinator") ("Dubai" OR "Abu Dhabi")'
+    enabled: true
+
+  - name: Graduate & management-trainee programmes — UAE
+    query: '("graduate programme" OR "graduate program" OR "management trainee") ("Dubai" OR "Abu Dhabi") (operations OR projects OR "project management") 2026 -"UAE Nationals" -"Emirati"'
+    enabled: true
+
+  - name: Construction & real-estate PM firms — coordinator roles
+    query: '("Project Coordinator" OR "Document Controller" OR "Project Controls") ("Dubai" OR "Abu Dhabi") (AECOM OR Jacobs OR WSP OR Parsons OR "Turner & Townsend" OR Mace OR Arcadis OR Egis OR Emaar OR Aldar)'
+    enabled: true
+
+# -- Job boards (zero-token APIs) --
+job_boards:
+  - name: Amazon — UAE
+    provider: amazon
+    amazon:
+      normalized_country_code: [ARE]
+    enabled: true
+    notes: "Amazon / AWS roles in the UAE. Operations entry routes: Area Manager, Operations Associate, Program/Project Coordinator. title_filter + skip_tiers do the narrowing."
+
+# -- Tracked companies --
+# Intentionally empty. Populate with verified boards (see the header):
+#   node discover-ats.mjs --in presets/uae-pm-ops/companies.yml --write
+tracked_companies: []
