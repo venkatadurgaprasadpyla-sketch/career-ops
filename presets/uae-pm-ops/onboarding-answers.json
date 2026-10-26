@@ -1,0 +1,36 @@
+{
+  "target_roles": [
+    "Project Coordinator",
+    "Assistant Project Manager",
+    "PMO Analyst",
+    "Operations Coordinator",
+    "Operations Executive",
+    "Operations Analyst"
+  ],
+  "compensation": {
+    "target_range": "AED 8,000-12,000 per month (total package)",
+    "currency": "AED",
+    "minimum": "AED 6,000 per month (total package)",
+    "location_flexibility": "On-site or hybrid in Dubai or Abu Dhabi"
+  },
+  "location": {
+    "country": "United Arab Emirates",
+    "city": "Dubai",
+    "timezone": "GST (UTC+4)",
+    "visa_status": "UAE resident with own visa, no sponsorship needed (not an Emirati national)",
+    "authorized_in": ["United Arab Emirates"],
+    "needs_sponsorship": false
+  },
+  "spend_tier": "standard",
+  "archetypes": [
+    { "name": "Project Coordinator / Junior Project Manager", "level": "Entry", "fit": "primary" },
+    { "name": "PMO Analyst / Coordinator", "level": "Entry", "fit": "primary" },
+    { "name": "Operations Coordinator / Executive / Analyst", "level": "Entry", "fit": "primary" },
+    { "name": "Business Operations / Process Improvement Analyst", "level": "Entry", "fit": "secondary" },
+    { "name": "Graduate / Management Trainee (Operations or Projects)", "level": "Graduate", "fit": "secondary" },
+    { "name": "Supply Chain / Logistics Coordinator", "level": "Entry", "fit": "adjacent" }
+  ],
+  "narrative": {
+    "headline": "Early-career project and operations coordinator based in the UAE"
+  }
+}

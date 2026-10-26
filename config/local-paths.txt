@@ -1,0 +1,5 @@
+# Files this fork owns that upstream does not ship (see config/local-paths.example.txt).
+# Tracked on purpose: .gitignore un-ignores this file so the coverage guard sees it.
+
+# UAE entry-level Project & Operations preset
+presets/
